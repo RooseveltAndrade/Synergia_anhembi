@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Conexao {
+public class conexao {
     private static final String URL = "jdbc:mysql://localhost:3306/synergia";
     private static final String USER = "root"; // altere se for outro usuário
     private static final String PASSWORD = "SUA_SENHA"; // troque pela senha real
