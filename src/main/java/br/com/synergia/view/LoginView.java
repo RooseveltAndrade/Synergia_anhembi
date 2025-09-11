@@ -47,7 +47,11 @@ public class LoginView extends JFrame {
         if (usuario != null) {
             JOptionPane.showMessageDialog(this,
                     "Bem-vindo, " + usuario.getNome() + "! Perfil: " + usuario.getPerfil());
-            // aqui você pode abrir a tela principal (dashboard) e fechar o login
+
+            // Abre o Dashboard
+            new DashboardView(usuario.getNome(), usuario.getPerfil());
+
+            // Fecha a tela de login
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this,
