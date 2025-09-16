@@ -40,7 +40,7 @@ public class DashboardView extends JFrame {
         add(buttonPanel, BorderLayout.CENTER);
 
         // Ações básicas (placeholders por enquanto)
-        btnUsuarios.addActionListener(e -> JOptionPane.showMessageDialog(this, "Abrir módulo de Usuários"));
+        btnUsuarios.addActionListener(e -> new UsuarioView());
         btnProjetos.addActionListener(e -> JOptionPane.showMessageDialog(this, "Abrir módulo de Projetos"));
         btnEquipes.addActionListener(e -> JOptionPane.showMessageDialog(this, "Abrir módulo de Equipes"));
         btnTarefas.addActionListener(e -> JOptionPane.showMessageDialog(this, "Abrir módulo de Tarefas"));

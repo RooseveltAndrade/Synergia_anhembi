@@ -23,6 +23,18 @@ public class UsuarioDAO {
         }
     }
 
+    public void excluir(int id) {
+        String sql = "DELETE FROM usuarios WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            System.out.println("✅ Usuário excluído com sucesso!");
+        } catch (SQLException e) {
+            System.err.println("❌ Erro ao excluir usuário: " + e.getMessage());
+        }
+    }
+
     public List<Usuario> listarTodos() {
         List<Usuario> usuarios = new ArrayList<>();
         String sql = "SELECT * FROM usuarios";
