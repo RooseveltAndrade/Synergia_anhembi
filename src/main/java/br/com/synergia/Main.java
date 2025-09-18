@@ -1,14 +1,9 @@
 package br.com.synergia;
 
-import br.com.synergia.dao.DatabaseConnection;
-import java.sql.Connection;
+import br.com.synergia.view.LoginView;
 
 public class Main {
     public static void main(String[] args) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            System.out.println("✅ Conexão bem-sucedida com o MySQL!");
-        } catch (Exception e) {
-            System.out.println("❌ Falha na conexão: " + e.getMessage());
-        }
+        javax.swing.SwingUtilities.invokeLater(() -> new LoginView());
     }
 }

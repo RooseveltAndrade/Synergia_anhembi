@@ -1,0 +1,16 @@
+br/com/synergia/dao/EquipeDAO.class
+br/com/synergia/dao/TarefaDAO.class
+br/com/synergia/model/Equipe.class
+br/com/synergia/view/LoginView.class
+br/com/synergia/dao/DatabaseConnection.class
+br/com/synergia/view/EquipeView.class
+br/com/synergia/model/Tarefa.class
+br/com/synergia/view/DashboardView.class
+br/com/synergia/Main.class
+br/com/synergia/dao/ProjetoDAO.class
+br/com/synergia/view/UsuarioView.class
+br/com/synergia/model/Usuario.class
+br/com/synergia/model/Projeto.class
+br/com/synergia/view/ProjetoView.class
+br/com/synergia/dao/conexao.class
+br/com/synergia/dao/UsuarioDAO.class
