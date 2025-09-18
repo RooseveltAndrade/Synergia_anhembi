@@ -9,29 +9,34 @@ import java.awt.*;
 public class LoginView extends JFrame {
     private JTextField emailField;
     private JPasswordField senhaField;
-    private JButton loginButton;
+    private UsuarioDAO usuarioDAO;
 
     public LoginView() {
-        setTitle("Synergia - Login");
+        usuarioDAO = new UsuarioDAO();
+
+        setTitle("Login - Synergia");
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(3, 2, 10, 10));
+
+        JPanel panel = new JPanel(new GridLayout(3, 2));
 
         JLabel emailLabel = new JLabel("Email:");
-        JLabel senhaLabel = new JLabel("Senha:");
-
         emailField = new JTextField();
+        JLabel senhaLabel = new JLabel("Senha:");
         senhaField = new JPasswordField();
-        loginButton = new JButton("Entrar");
+        JButton loginButton = new JButton("Login");
 
-        add(emailLabel);
-        add(emailField);
-        add(senhaLabel);
-        add(senhaField);
-        add(new JLabel()); // placeholder vazio
-        add(loginButton);
+        panel.add(emailLabel);
+        panel.add(emailField);
+        panel.add(senhaLabel);
+        panel.add(senhaField);
+        panel.add(new JLabel()); // espaço vazio
+        panel.add(loginButton);
 
+        add(panel);
+
+        // ação do botão de login
         loginButton.addActionListener(e -> autenticar());
 
         setVisible(true);
@@ -41,13 +46,16 @@ public class LoginView extends JFrame {
         String email = emailField.getText();
         String senha = new String(senhaField.getPassword());
 
-        UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = dao.autenticar(email, senha);
+        Usuario usuario = usuarioDAO.autenticar(email, senha);
 
         if (usuario != null) {
             JOptionPane.showMessageDialog(this,
                     "Bem-vindo, " + usuario.getNome() + "! Perfil: " + usuario.getPerfil());
-            // aqui você pode abrir a tela principal (dashboard) e fechar o login
+
+            // 👉 Abre o Dashboard após login bem-sucedido
+            new DashboardView(usuario.getNome(), usuario.getPerfil());
+
+            // 👉 Fecha a tela de login
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this,
