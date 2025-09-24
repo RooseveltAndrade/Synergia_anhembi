@@ -10,6 +10,9 @@ target/
 *.iws
 *.ipr
 
+# VS Code
+.vscode/
+
 # Other build outputs
 out/
 build/
