@@ -16,7 +16,7 @@ public class LoginView extends JFrame {
 
         setTitle("Login - Synergia");
         setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new GridLayout(3, 2));
