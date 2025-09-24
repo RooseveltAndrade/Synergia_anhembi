@@ -9,45 +9,69 @@ import java.awt.*;
 public class LoginView extends JFrame {
     private JTextField emailField;
     private JPasswordField senhaField;
-    private JButton loginButton;
+    private UsuarioDAO usuarioDAO;
 
     public LoginView() {
-        setTitle("Synergia - Login");
-        setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        usuarioDAO = new UsuarioDAO();
+
+        setTitle("Login - Synergia");
+        setSize(400, 220);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Tela inicial deve encerrar app
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(3, 2, 10, 10));
 
+        // Painel principal com margem
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+        // Painel de formulário
+        JPanel formPanel = new JPanel(new GridLayout(2, 2, 8, 8));
         JLabel emailLabel = new JLabel("Email:");
-        JLabel senhaLabel = new JLabel("Senha:");
-
         emailField = new JTextField();
+        JLabel senhaLabel = new JLabel("Senha:");
         senhaField = new JPasswordField();
-        loginButton = new JButton("Entrar");
 
-        add(emailLabel);
-        add(emailField);
-        add(senhaLabel);
-        add(senhaField);
-        add(new JLabel()); // placeholder vazio
-        add(loginButton);
+        formPanel.add(emailLabel);
+        formPanel.add(emailField);
+        formPanel.add(senhaLabel);
+        formPanel.add(senhaField);
 
+        // Painel de botões
+        JPanel botoesPanel = new JPanel();
+        JButton loginButton = new JButton("Entrar");
+        botoesPanel.add(loginButton);
+
+        // Montagem final
+        panel.add(formPanel, BorderLayout.CENTER);
+        panel.add(botoesPanel, BorderLayout.SOUTH);
+
+        add(panel);
+
+        // ação do botão de login
         loginButton.addActionListener(e -> autenticar());
 
         setVisible(true);
     }
 
     private void autenticar() {
-        String email = emailField.getText();
-        String senha = new String(senhaField.getPassword());
+        String email = emailField.getText().trim();
+        String senha = new String(senhaField.getPassword()).trim();
 
-        UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = dao.autenticar(email, senha);
+        if (email.isEmpty() || senha.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Usuario usuario = usuarioDAO.autenticar(email, senha);
 
         if (usuario != null) {
             JOptionPane.showMessageDialog(this,
                     "Bem-vindo, " + usuario.getNome() + "! Perfil: " + usuario.getPerfil());
-            // aqui você pode abrir a tela principal (dashboard) e fechar o login
+
+            // Abre o Dashboard após login bem-sucedido
+            SwingUtilities.invokeLater(() -> new DashboardView(usuario.getNome(), usuario.getPerfil()));
+
+            // Fecha a tela de login
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this,
