@@ -31,7 +31,7 @@ public class ProjetoDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                Projeto p = new Projeto(
+                Projeto projeto = new Projeto(
                         rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getString("descricao"),
@@ -40,7 +40,7 @@ public class ProjetoDAO {
                         rs.getString("status"),
                         rs.getInt("gerente_id")
                 );
-                lista.add(p);
+                lista.add(projeto);
             }
         } catch (SQLException e) {
             System.err.println("❌ Erro ao listar projetos: " + e.getMessage());

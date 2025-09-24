@@ -2,7 +2,6 @@ package br.com.synergia.view;
 
 import javax.swing.*;
 import java.awt.*;
-import br.com.synergia.view.ProjetoView;
 
 public class DashboardView extends JFrame {
 
@@ -39,12 +38,15 @@ public class DashboardView extends JFrame {
 
         add(buttonPanel, BorderLayout.CENTER);
 
-        // Ações básicas
-        btnUsuarios.addActionListener(e -> JOptionPane.showMessageDialog(this, "Abrir módulo de Usuários"));
+        // Ações
+        btnUsuarios.addActionListener(e -> new UsuarioView());
         btnProjetos.addActionListener(e -> new ProjetoView());
-        btnEquipes.addActionListener(e -> JOptionPane.showMessageDialog(this, "Abrir módulo de Equipes"));
-        btnTarefas.addActionListener(e -> JOptionPane.showMessageDialog(this, "Abrir módulo de Tarefas"));
-        btnRelatorios.addActionListener(e -> JOptionPane.showMessageDialog(this, "Abrir módulo de Relatórios"));
+        btnEquipes.addActionListener(e -> new EquipeView());
+
+        btnTarefas.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "Módulo de Tarefas ainda não implementado."));
+        btnRelatorios.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "Módulo de Relatórios ainda não implementado."));
         btnSair.addActionListener(e -> System.exit(0));
 
         setVisible(true);

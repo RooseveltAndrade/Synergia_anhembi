@@ -8,7 +8,7 @@ public class Projeto {
     private String descricao;
     private Date dataInicio;
     private Date dataFimPrevista;
-    private String status;
+    private String status; // PLANEJADO, EM_ANDAMENTO, CONCLUIDO, CANCELADO
     private int gerenteId;
 
     public Projeto() {}

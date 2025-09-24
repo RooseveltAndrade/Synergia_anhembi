@@ -52,10 +52,10 @@ public class LoginView extends JFrame {
             JOptionPane.showMessageDialog(this,
                     "Bem-vindo, " + usuario.getNome() + "! Perfil: " + usuario.getPerfil());
 
-            // 👉 Abre o Dashboard após login bem-sucedido
-            new DashboardView(usuario.getNome(), usuario.getPerfil());
+            // Abre o Dashboard após login bem-sucedido
+            SwingUtilities.invokeLater(() -> new DashboardView(usuario.getNome(), usuario.getPerfil()));
 
-            // 👉 Fecha a tela de login
+            // Fecha a tela de login
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this,

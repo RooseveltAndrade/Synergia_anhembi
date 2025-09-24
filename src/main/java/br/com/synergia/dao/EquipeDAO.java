@@ -1,7 +1,6 @@
 package br.com.synergia.dao;
 
 import br.com.synergia.model.Equipe;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +27,12 @@ public class EquipeDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                equipes.add(new Equipe(
+                Equipe equipe = new Equipe(
                         rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getString("descricao")
-                ));
+                );
+                equipes.add(equipe);
             }
         } catch (SQLException e) {
             System.err.println("❌ Erro ao listar equipes: " + e.getMessage());

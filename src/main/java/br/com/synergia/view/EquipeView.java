@@ -57,7 +57,6 @@ public class EquipeView extends JFrame {
 
         // Carregar dados
         carregarEquipes();
-
         setVisible(true);
     }
 
