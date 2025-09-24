@@ -23,10 +23,12 @@ public class ProjetoView extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        // Tabela
         modelo = new DefaultTableModel(new String[]{"ID", "Nome", "Descrição", "Início", "Fim Previsto", "Status", "Gerente"}, 0);
         tabela = new JTable(modelo);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
 
+        // Botões
         JPanel botoes = new JPanel();
         JButton btnAdicionar = new JButton("Adicionar");
         JButton btnExcluir = new JButton("Excluir");
@@ -36,6 +38,7 @@ public class ProjetoView extends JFrame {
         botoes.add(btnAtualizar);
         add(botoes, BorderLayout.SOUTH);
 
+        // Ações
         btnAdicionar.addActionListener(e -> adicionarProjeto());
         btnExcluir.addActionListener(e -> excluirProjeto());
         btnAtualizar.addActionListener(e -> carregarProjetos());

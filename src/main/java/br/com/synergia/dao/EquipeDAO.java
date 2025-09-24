@@ -20,8 +20,8 @@ public class EquipeDAO {
         }
     }
 
-    public List<Equipe> listarTodos() {
-        List<Equipe> lista = new ArrayList<>();
+    public List<Equipe> listar() {
+        List<Equipe> equipes = new ArrayList<>();
         String sql = "SELECT * FROM equipes";
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -32,23 +32,37 @@ public class EquipeDAO {
                         rs.getString("nome"),
                         rs.getString("descricao")
                 );
-                lista.add(equipe);
+                equipes.add(equipe);
             }
         } catch (SQLException e) {
             System.err.println("❌ Erro ao listar equipes: " + e.getMessage());
         }
-        return lista;
+        return equipes;
     }
 
-    public void excluir(int id) {
+    public void atualizar(Equipe equipe) {
+        String sql = "UPDATE equipes SET nome = ?, descricao = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, equipe.getNome());
+            stmt.setString(2, equipe.getDescricao());
+            stmt.setInt(3, equipe.getId());
+            stmt.executeUpdate();
+            System.out.println("✅ Equipe atualizada com sucesso!");
+        } catch (SQLException e) {
+            System.err.println("❌ Erro ao atualizar equipe: " + e.getMessage());
+        }
+    }
+
+    public void deletar(int id) {
         String sql = "DELETE FROM equipes WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
-            System.out.println("✅ Equipe excluída com sucesso!");
+            System.out.println("✅ Equipe deletada com sucesso!");
         } catch (SQLException e) {
-            System.err.println("❌ Erro ao excluir equipe: " + e.getMessage());
+            System.err.println("❌ Erro ao deletar equipe: " + e.getMessage());
         }
     }
 }

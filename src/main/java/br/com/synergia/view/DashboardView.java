@@ -13,11 +13,13 @@ public class DashboardView extends JFrame {
 
         setLayout(new BorderLayout());
 
+        // Cabeçalho
         JLabel welcomeLabel = new JLabel(
                 "Bem-vindo, " + nomeUsuario + " (" + perfil + ")", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 16));
         add(welcomeLabel, BorderLayout.NORTH);
 
+        // Painel com botões
         JPanel buttonPanel = new JPanel(new GridLayout(2, 3, 10, 10));
 
         JButton btnUsuarios = new JButton("👥 Usuários");
@@ -40,9 +42,7 @@ public class DashboardView extends JFrame {
         btnUsuarios.addActionListener(e -> new UsuarioView());
         btnProjetos.addActionListener(e -> new ProjetoView());
         btnEquipes.addActionListener(e -> new EquipeView());
-
-        btnTarefas.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Módulo de Tarefas ainda não implementado."));
+        btnTarefas.addActionListener(e -> new TarefaView());
         btnRelatorios.addActionListener(e ->
                 JOptionPane.showMessageDialog(this, "Módulo de Relatórios ainda não implementado."));
         btnSair.addActionListener(e -> System.exit(0));

@@ -9,81 +9,107 @@ import java.awt.*;
 import java.util.List;
 
 public class EquipeView extends JFrame {
+    private JTextField nomeField;
+    private JTextField descricaoField;
+    private JTable table;
+    private DefaultTableModel tableModel;
     private EquipeDAO equipeDAO;
-    private JTable tabela;
-    private DefaultTableModel modelo;
 
     public EquipeView() {
         equipeDAO = new EquipeDAO();
 
         setTitle("Gerenciamento de Equipes");
-        setSize(700, 400);
+        setSize(600, 400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        modelo = new DefaultTableModel(new String[]{"ID", "Nome", "Descrição"}, 0);
-        tabela = new JTable(modelo);
-        add(new JScrollPane(tabela), BorderLayout.CENTER);
+        // Painel de formulário
+        JPanel formPanel = new JPanel(new GridLayout(3, 2));
+        formPanel.add(new JLabel("Nome:"));
+        nomeField = new JTextField();
+        formPanel.add(nomeField);
 
-        JPanel botoes = new JPanel();
-        JButton btnAdicionar = new JButton("Adicionar");
-        JButton btnExcluir = new JButton("Excluir");
-        JButton btnAtualizar = new JButton("Atualizar Lista");
+        formPanel.add(new JLabel("Descrição:"));
+        descricaoField = new JTextField();
+        formPanel.add(descricaoField);
 
-        botoes.add(btnAdicionar);
-        botoes.add(btnExcluir);
-        botoes.add(btnAtualizar);
-        add(botoes, BorderLayout.SOUTH);
+        JButton addButton = new JButton("Adicionar");
+        JButton updateButton = new JButton("Atualizar");
+        JButton deleteButton = new JButton("Excluir");
 
-        btnAdicionar.addActionListener(e -> adicionarEquipe());
-        btnExcluir.addActionListener(e -> excluirEquipe());
-        btnAtualizar.addActionListener(e -> carregarEquipes());
+        formPanel.add(addButton);
+        formPanel.add(updateButton);
+        formPanel.add(deleteButton);
 
+        // Tabela
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Nome", "Descrição"}, 0);
+        table = new JTable(tableModel);
+        JScrollPane tableScroll = new JScrollPane(table);
+
+        // Layout
+        add(formPanel, BorderLayout.NORTH);
+        add(tableScroll, BorderLayout.CENTER);
+
+        // Listeners
+        addButton.addActionListener(e -> adicionarEquipe());
+        updateButton.addActionListener(e -> atualizarEquipe());
+        deleteButton.addActionListener(e -> deletarEquipe());
+
+        // Carregar dados
         carregarEquipes();
         setVisible(true);
     }
 
     private void carregarEquipes() {
-        modelo.setRowCount(0);
-        List<Equipe> equipes = equipeDAO.listarTodos();
+        tableModel.setRowCount(0);
+        List<Equipe> equipes = equipeDAO.listar();
         for (Equipe eq : equipes) {
-            modelo.addRow(new Object[]{eq.getId(), eq.getNome(), eq.getDescricao()});
+            tableModel.addRow(new Object[]{eq.getId(), eq.getNome(), eq.getDescricao()});
         }
     }
 
     private void adicionarEquipe() {
-        JTextField nomeField = new JTextField();
-        JTextField descricaoField = new JTextField();
-
-        Object[] message = {
-                "Nome:", nomeField,
-                "Descrição:", descricaoField
-        };
-
-        int option = JOptionPane.showConfirmDialog(this, message, "Adicionar Equipe", JOptionPane.OK_CANCEL_OPTION);
-        if (option == JOptionPane.OK_OPTION) {
-            Equipe nova = new Equipe();
-            nova.setNome(nomeField.getText());
-            nova.setDescricao(descricaoField.getText());
-
-            equipeDAO.inserir(nova);
-            carregarEquipes();
+        String nome = nomeField.getText();
+        String descricao = descricaoField.getText();
+        if (nome.isEmpty() || descricao.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
+            return;
         }
+        Equipe equipe = new Equipe(nome, descricao);
+        equipeDAO.inserir(equipe);
+        carregarEquipes();
+        limparCampos();
     }
 
-    private void excluirEquipe() {
-        int row = tabela.getSelectedRow();
-        if (row >= 0) {
-            int id = (int) tabela.getValueAt(row, 0);
-            int confirm = JOptionPane.showConfirmDialog(this,
-                    "Excluir equipe ID " + id + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                equipeDAO.excluir(id);
-                carregarEquipes();
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma equipe.");
+    private void atualizarEquipe() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione uma equipe para atualizar!");
+            return;
         }
+        int id = (int) tableModel.getValueAt(selectedRow, 0);
+        String nome = nomeField.getText();
+        String descricao = descricaoField.getText();
+        Equipe equipe = new Equipe(id, nome, descricao);
+        equipeDAO.atualizar(equipe);
+        carregarEquipes();
+        limparCampos();
+    }
+
+    private void deletarEquipe() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione uma equipe para excluir!");
+            return;
+        }
+        int id = (int) tableModel.getValueAt(selectedRow, 0);
+        equipeDAO.deletar(id);
+        carregarEquipes();
+        limparCampos();
+    }
+
+    private void limparCampos() {
+        nomeField.setText("");
+        descricaoField.setText("");
     }
 }

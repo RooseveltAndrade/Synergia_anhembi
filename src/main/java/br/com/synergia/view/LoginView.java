@@ -31,11 +31,12 @@ public class LoginView extends JFrame {
         panel.add(emailField);
         panel.add(senhaLabel);
         panel.add(senhaField);
-        panel.add(new JLabel());
+        panel.add(new JLabel()); // espaço vazio
         panel.add(loginButton);
 
         add(panel);
 
+        // ação do botão de login
         loginButton.addActionListener(e -> autenticar());
 
         setVisible(true);
@@ -51,7 +52,7 @@ public class LoginView extends JFrame {
             JOptionPane.showMessageDialog(this,
                     "Bem-vindo, " + usuario.getNome() + "! Perfil: " + usuario.getPerfil());
 
-            // Aqui abre o Dashboard
+            // Abre o Dashboard após login bem-sucedido
             SwingUtilities.invokeLater(() -> new DashboardView(usuario.getNome(), usuario.getPerfil()));
 
             // Fecha a tela de login
