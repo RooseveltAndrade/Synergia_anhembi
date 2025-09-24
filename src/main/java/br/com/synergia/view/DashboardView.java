@@ -42,9 +42,7 @@ public class DashboardView extends JFrame {
         btnUsuarios.addActionListener(e -> new UsuarioView());
         btnProjetos.addActionListener(e -> new ProjetoView());
         btnEquipes.addActionListener(e -> new EquipeView());
-
-        btnTarefas.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Módulo de Tarefas ainda não implementado."));
+        btnTarefas.addActionListener(e -> new TarefaView());
         btnRelatorios.addActionListener(e ->
                 JOptionPane.showMessageDialog(this, "Módulo de Relatórios ainda não implementado."));
         btnSair.addActionListener(e -> System.exit(0));
