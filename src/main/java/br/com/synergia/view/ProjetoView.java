@@ -18,14 +18,28 @@ public class ProjetoView extends JFrame {
         projetoDAO = new ProjetoDAO();
 
         setTitle("Gerenciamento de Projetos");
-        setSize(800, 400);
+        setSize(900, 400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Tabela
-        modelo = new DefaultTableModel(new String[]{"ID", "Nome", "Descrição", "Início", "Fim Previsto", "Status", "Gerente"}, 0);
+        modelo = new DefaultTableModel(
+                new String[]{"ID", "Nome", "Descrição", "Início", "Fim Previsto", "Status", "Gerente"}, 0
+        );
         tabela = new JTable(modelo);
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tabela.setFillsViewportHeight(true);
+
+        // Ajustar larguras das colunas
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(50);   // ID
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(200);  // Nome
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(250);  // Descrição
+        tabela.getColumnModel().getColumn(3).setPreferredWidth(120);  // Início
+        tabela.getColumnModel().getColumn(4).setPreferredWidth(120);  // Fim
+        tabela.getColumnModel().getColumn(5).setPreferredWidth(120);  // Status
+        tabela.getColumnModel().getColumn(6).setPreferredWidth(100);  // Gerente
+
         add(new JScrollPane(tabela), BorderLayout.CENTER);
 
         // Botões
@@ -33,15 +47,19 @@ public class ProjetoView extends JFrame {
         JButton btnAdicionar = new JButton("Adicionar");
         JButton btnExcluir = new JButton("Excluir");
         JButton btnAtualizar = new JButton("Atualizar Lista");
+        JButton voltarButton = new JButton("Voltar");
+
         botoes.add(btnAdicionar);
         botoes.add(btnExcluir);
         botoes.add(btnAtualizar);
+        botoes.add(voltarButton);
         add(botoes, BorderLayout.SOUTH);
 
         // Ações
         btnAdicionar.addActionListener(e -> adicionarProjeto());
         btnExcluir.addActionListener(e -> excluirProjeto());
         btnAtualizar.addActionListener(e -> carregarProjetos());
+        voltarButton.addActionListener(e -> dispose());
 
         carregarProjetos();
         setVisible(true);
@@ -96,7 +114,9 @@ public class ProjetoView extends JFrame {
         int row = tabela.getSelectedRow();
         if (row >= 0) {
             int id = (int) tabela.getValueAt(row, 0);
-            int confirm = JOptionPane.showConfirmDialog(this, "Excluir projeto ID " + id + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(
+                    this, "Excluir projeto ID " + id + "?", "Confirmação", JOptionPane.YES_NO_OPTION
+            );
             if (confirm == JOptionPane.YES_OPTION) {
                 projetoDAO.excluir(id);
                 carregarProjetos();

@@ -29,12 +29,12 @@ build/
 ehthumbs.db
 Thumbs.db
 
-# IDE files
+# IDE swap files
 *.swp
 *.swo
 *~
 
-# Maven
+# Maven specific
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

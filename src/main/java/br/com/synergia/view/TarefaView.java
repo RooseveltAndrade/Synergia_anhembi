@@ -11,19 +11,21 @@ import java.util.List;
 
 public class TarefaView extends JFrame {
     private JTextField tituloField, descricaoField, projetoIdField, responsavelIdField, statusField, inicioField, fimField;
-    private JTable table;
-    private DefaultTableModel tableModel;
+    private JTable tabela;
+    private DefaultTableModel modelo;
     private TarefaDAO tarefaDAO;
 
     public TarefaView() {
         tarefaDAO = new TarefaDAO();
 
         setTitle("Gerenciamento de Tarefas");
-        setSize(800, 500);
+        setSize(950, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(8, 2));
+        // Painel formulário
+        JPanel formPanel = new JPanel(new GridLayout(8, 2, 5, 5));
         formPanel.add(new JLabel("Título:"));
         tituloField = new JTextField();
         formPanel.add(tituloField);
@@ -52,34 +54,58 @@ public class TarefaView extends JFrame {
         fimField = new JTextField();
         formPanel.add(fimField);
 
+        // Botões
+        JPanel botoes = new JPanel();
         JButton addButton = new JButton("Adicionar");
         JButton updateButton = new JButton("Atualizar");
         JButton deleteButton = new JButton("Excluir");
+        JButton voltarButton = new JButton("Voltar");
 
-        formPanel.add(addButton);
-        formPanel.add(updateButton);
-        formPanel.add(deleteButton);
+        botoes.add(addButton);
+        botoes.add(updateButton);
+        botoes.add(deleteButton);
+        botoes.add(voltarButton);
 
-        tableModel = new DefaultTableModel(new Object[]{"ID", "Título", "Descrição", "Projeto", "Responsável", "Status", "Início Previsto", "Fim Previsto"}, 0);
-        table = new JTable(tableModel);
-        JScrollPane tableScroll = new JScrollPane(table);
+        // Tabela
+        modelo = new DefaultTableModel(new Object[]{
+                "ID", "Título", "Descrição", "Projeto", "Responsável", "Status", "Início Previsto", "Fim Previsto"
+        }, 0);
+        tabela = new JTable(modelo);
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // largura fixa
+        tabela.setFillsViewportHeight(true);
 
+        // Ajustando larguras
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(200);
+        tabela.getColumnModel().getColumn(3).setPreferredWidth(80);
+        tabela.getColumnModel().getColumn(4).setPreferredWidth(100);
+        tabela.getColumnModel().getColumn(5).setPreferredWidth(100);
+        tabela.getColumnModel().getColumn(6).setPreferredWidth(120);
+        tabela.getColumnModel().getColumn(7).setPreferredWidth(120);
+
+        JScrollPane tableScroll = new JScrollPane(tabela);
+
+        // Layout principal
         add(formPanel, BorderLayout.NORTH);
         add(tableScroll, BorderLayout.CENTER);
+        add(botoes, BorderLayout.SOUTH);
 
+        // Listeners
         addButton.addActionListener(e -> adicionarTarefa());
         updateButton.addActionListener(e -> atualizarTarefa());
         deleteButton.addActionListener(e -> deletarTarefa());
+        voltarButton.addActionListener(e -> dispose());
 
         carregarTarefas();
         setVisible(true);
     }
 
     private void carregarTarefas() {
-        tableModel.setRowCount(0);
+        modelo.setRowCount(0);
         List<Tarefa> tarefas = tarefaDAO.listar();
         for (Tarefa t : tarefas) {
-            tableModel.addRow(new Object[]{
+            modelo.addRow(new Object[]{
                     t.getId(), t.getTitulo(), t.getDescricao(),
                     t.getProjetoId(), t.getResponsavelId(),
                     t.getStatus(), t.getDataInicioPrevista(), t.getDataFimPrevista()
@@ -107,10 +133,10 @@ public class TarefaView extends JFrame {
     }
 
     private void atualizarTarefa() {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow == -1) return;
+        int row = tabela.getSelectedRow();
+        if (row == -1) return;
         try {
-            int id = (int) tableModel.getValueAt(selectedRow, 0);
+            int id = (int) modelo.getValueAt(row, 0);
             Tarefa tarefa = new Tarefa(
                     id,
                     tituloField.getText(),
@@ -130,9 +156,9 @@ public class TarefaView extends JFrame {
     }
 
     private void deletarTarefa() {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow == -1) return;
-        int id = (int) tableModel.getValueAt(selectedRow, 0);
+        int row = tabela.getSelectedRow();
+        if (row == -1) return;
+        int id = (int) modelo.getValueAt(row, 0);
         tarefaDAO.deletar(id);
         carregarTarefas();
         limparCampos();

@@ -15,24 +15,34 @@ public class LoginView extends JFrame {
         usuarioDAO = new UsuarioDAO();
 
         setTitle("Login - Synergia");
-        setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 220);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Tela inicial deve encerrar app
         setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel(new GridLayout(3, 2));
+        // Painel principal com margem
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
+        // Painel de formulário
+        JPanel formPanel = new JPanel(new GridLayout(2, 2, 8, 8));
         JLabel emailLabel = new JLabel("Email:");
         emailField = new JTextField();
         JLabel senhaLabel = new JLabel("Senha:");
         senhaField = new JPasswordField();
-        JButton loginButton = new JButton("Login");
 
-        panel.add(emailLabel);
-        panel.add(emailField);
-        panel.add(senhaLabel);
-        panel.add(senhaField);
-        panel.add(new JLabel()); // espaço vazio
-        panel.add(loginButton);
+        formPanel.add(emailLabel);
+        formPanel.add(emailField);
+        formPanel.add(senhaLabel);
+        formPanel.add(senhaField);
+
+        // Painel de botões
+        JPanel botoesPanel = new JPanel();
+        JButton loginButton = new JButton("Entrar");
+        botoesPanel.add(loginButton);
+
+        // Montagem final
+        panel.add(formPanel, BorderLayout.CENTER);
+        panel.add(botoesPanel, BorderLayout.SOUTH);
 
         add(panel);
 
@@ -43,8 +53,14 @@ public class LoginView extends JFrame {
     }
 
     private void autenticar() {
-        String email = emailField.getText();
-        String senha = new String(senhaField.getPassword());
+        String email = emailField.getText().trim();
+        String senha = new String(senhaField.getPassword()).trim();
+
+        if (email.isEmpty() || senha.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         Usuario usuario = usuarioDAO.autenticar(email, senha);
 

@@ -29,6 +29,7 @@ public class DashboardView extends JFrame {
         JButton btnRelatorios = new JButton("📊 Relatórios");
         JButton btnSair = new JButton("🚪 Sair");
 
+
         buttonPanel.add(btnUsuarios);
         buttonPanel.add(btnProjetos);
         buttonPanel.add(btnEquipes);
@@ -43,8 +44,7 @@ public class DashboardView extends JFrame {
         btnProjetos.addActionListener(e -> new ProjetoView());
         btnEquipes.addActionListener(e -> new EquipeView());
         btnTarefas.addActionListener(e -> new TarefaView());
-        btnRelatorios.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Módulo de Relatórios ainda não implementado."));
+        btnRelatorios.addActionListener(e -> new RelatorioView());
         btnSair.addActionListener(e -> System.exit(0));
 
         setVisible(true);
