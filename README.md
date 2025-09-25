@@ -1,65 +1,118 @@
-📌 Synergia Anhembi – Sistema de Gestão de Projetos e Equipes
+# 📌 Synergia - Sistema de Gestão de Projetos e Equipes
 
-📖 Sobre o projeto
+O **Synergia** é uma aplicação desktop desenvolvida em **Java (Swing + JDBC + MySQL)**, com objetivo de gerenciar **usuários, equipes, projetos e tarefas** em um ambiente integrado.  
+Foi criado como parte do projeto acadêmico da **Universidade Anhembi Morumbi (ADS - Análise e Desenvolvimento de Sistemas)**.
 
-O Synergia Anhembi é um sistema acadêmico desenvolvido em Java (Swing + JDBC) com MySQL para apoiar a gestão de equipes, projetos, tarefas e usuários.
-O sistema foi construído seguindo boas práticas de POO e organizado em camadas (Model, DAO e View).
+---
 
-⸻
+## 🚀 Funcionalidades
 
-🚀 Funcionalidades
-•	👥 Usuários: CRUD completo com autenticação e perfis (ADMIN, GERENTE, COLABORADOR).
-•	👨‍👩‍👧 Equipes: Cadastro, edição e exclusão de equipes.
-•	📂 Projetos: Gerenciamento de projetos com datas, status e responsável.
-•	✅ Tarefas: Vinculação de tarefas a projetos e responsáveis.
-•	📊 Relatórios: Resumo de projetos, desempenho de colaboradores e alerta de atrasos.
-•	🔑 Login e Dashboard: Autenticação com redirecionamento para o menu principal.
+- **Login seguro** com autenticação de usuário
+- **Dashboard** com navegação intuitiva
+- **CRUD de Usuários**: adicionar, listar, atualizar e excluir
+- **CRUD de Equipes**: gerenciar equipes e descrições
+- **CRUD de Projetos**: criar projetos com status, gerente e datas
+- **CRUD de Tarefas**: atribuir tarefas a projetos e responsáveis
+- **Relatórios**: resumo de desempenho e atrasos
 
-⸻
+---
 
-🛠️ Tecnologias utilizadas
-•	Java 17
-•	Swing (GUI desktop)
-•	MySQL 8.0
-•	Maven (gerenciamento de dependências)
-•	Git + GitHub (controle de versão)
+## 🛠️ Tecnologias Utilizadas
 
-📂 Estrutura do projeto
+- **Java 17**
+- **Swing (GUI Desktop)**
+- **JDBC (Conexão com banco de dados)**
+- **MySQL 8**
+- **Maven (gerenciamento de dependências)**
+- **IntelliJ IDEA (IDE principal)**
 
-src/main/java/br/com/synergia/
-├── dao/        → Classes de acesso ao banco (UsuarioDAO, ProjetoDAO, etc.)
-├── model/      → Modelos (Usuario, Projeto, Equipe, Tarefa)
-├── view/       → Telas Swing (LoginView, DashboardView, CRUDs, Relatórios)
-└── Main.java   → Classe principal
+---
 
-⚙️ Requisitos
-•	Java 17 ou superior
-•	MySQL 8.0
-•	Maven 3.9+
+## 📂 Estrutura do Projeto
 
-⸻
+Synergia_anhembi/
+│── src/main/java/br/com/synergia/
+│   ├── dao/        # DAOs para manipulação do banco
+│   ├── model/      # Entidades (Usuario, Projeto, Equipe, Tarefa)
+│   ├── view/       # Telas Swing (LoginView, DashboardView, etc.)
+│   └── Main.java   # Ponto de entrada da aplicação
+│
+│── pom.xml         # Configuração Maven
+│── run.sh          # Script de execução
+│── README.md       # Documentação do projeto
 
-💾 Instalação e execução
-1.	Clone o repositório:
+---
 
-git clone https://github.com/SEU_USUARIO/Synergia_anhembi.git
-cd Synergia_anhembi
+## ⚙️ Requisitos
 
-2. Configure o banco de dados MySQL:
+- **Java 17** ou superior
+- **Maven 3.6+**
+- **MySQL 8**
+- IDE recomendada: **IntelliJ IDEA**
 
-CREATE DATABASE synergia;
-USE synergia;
--- Execute os scripts SQL das tabelas (usuários, equipes, projetos, tarefas)
+---
 
-3. Ajuste o arquivo conexao.java com suas credenciais do banco.
-4. Compile e rode:
+## 🔧 Instalação e Configuração
 
-mvn clean install
-./run.sh
+1. **Clonar o repositório**
+   ```bash
+   git clone https://github.com/RooseveltAndrade/Synergia_anhembi.git
+   cd Synergia_anhembi
+   
+2. **Configurar o banco MySQL**
 
-👨‍💻 Autor
-•	Roosevelt Andrade (Desenvolvedor Full Stack)
+   ```sql
+   CREATE DATABASE synergia
 
-🏷️ Versões
-•	v1.0.0 → Primeira release estável com CRUDs completos e relatórios básicos.
+ 3. **Configurar conexão**
+    •	No arquivo conexao.java, atualizar usuário e senha:
+4. ```java
+    private static final String URL = "jdbc:mysql://localhost:3306/synergia";
+    private static final String USER = "root";
+    private static final String PASSWORD = "sua_senha";
+
+5. **Compiler o projeto**
+6. ```bash
+    mvn clean install
+
+
+7. **Executar**
+8. ```bash
+    ./run.sh
+
+## 📊 Relatórios
+
+O módulo de relatórios permite:
+
+Listar projetos em andamento e concluídos
+
+Consultar tarefas em atraso
+
+Resumo do desempenho das equipes
+
+## 👨‍💻 Desenvolvedor
+
+Roosevelt Andrade Dev-FullStack
+
+
+## 📌 Status do Projeto
+
+✅ Concluído para entrega acadêmica
+🔜 Futuras melhorias:
+
+Exportação de relatórios em PDF/Excel
+
+Sistema de permissões avançadas
+
+Integração com APIs externas
+
+## 📜 Créditos
+
+Projeto desenvolvido como parte da graduação em Análise e Desenvolvimento de Sistemas pela Anhembi Morumbi.
+
+
+
+
+
+
 

@@ -29,6 +29,7 @@ public class DashboardView extends JFrame {
         JButton btnRelatorios = new JButton("📊 Relatórios");
         JButton btnSair = new JButton("🚪 Sair");
 
+
         buttonPanel.add(btnUsuarios);
         buttonPanel.add(btnProjetos);
         buttonPanel.add(btnEquipes);
